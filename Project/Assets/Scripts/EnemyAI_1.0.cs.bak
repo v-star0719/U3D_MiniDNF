@@ -1,0 +1,207 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+//发呆后以一定概率做如下事情：
+//发呆
+//乱走
+//攻击
+
+//
+
+public class EnemyAI : MonoBehaviour 
+{
+	enum EmMyStatus
+	{
+		Idle,
+		RandomMoveDirection,
+		MoveToTarget,
+		DoAttack,
+		NormalAttack,
+		BeAttacked,
+	}
+
+	public ActorBase actor;
+	public int idleRandom = 60;
+	public int moveRandom = 0;
+	public int attackRandom = 30;
+	public float attackTraceDuration = 1f;//跟踪时间限制
+
+	private EmMyStatus curStatus;
+	private float statusDuration;
+	private float timer;
+
+	//自由移动
+	private Vector3 randomMoveDir;
+	private float randomMoveTime;
+	private float idleTime = 2f;
+
+	private int normalAttackTimes = 3;
+	private float normalAttackInterval = 0.5f;
+	private float normalAttackTimer = 0f;
+	private float curNormalAttack = 0;
+
+	private ObjectBase moveToTarget;
+	private float moveToTargetOffset;//就是移动到距离目标多远为止
+
+	// Use this for initialization
+	void Start ()
+ 	{
+		//要求手动初始化，不自动了
+		//ChangeStatus(EmMyStatus.Idle);
+	}
+
+	public void StartAI()
+	{
+		ChangeStatus(EmMyStatus.Idle);
+	}
+
+	// Update is called once per frame
+	void Update ()
+	{
+		timer += Time.deltaTime;
+
+		if(actor.isBeattacked)
+		{
+			ChangeStatus(EmMyStatus.BeAttacked);
+			return;
+		}
+
+		switch(curStatus)
+		{
+		case EmMyStatus.Idle:
+			if(timer >= statusDuration)
+			{
+				int r = Random.Range(0, 101);
+				if(r < idleRandom)
+				{ }
+				else if(r < idleRandom + moveRandom)
+					ChangeStatus(EmMyStatus.RandomMoveDirection);
+				else if(r < idleRandom + moveRandom + attackRandom)
+					MoveToTarget();
+			}
+			break;
+		case EmMyStatus.RandomMoveDirection:
+			actor.Run(randomMoveDir);
+			if(timer >= statusDuration)
+				ChangeStatus(EmMyStatus.Idle);
+			break;
+		case EmMyStatus.MoveToTarget:
+			Vector3 dir = moveToTarget.realPos - actor.realPos;
+			if(dir.x < 0) dir.x = -1;
+			if(dir.x > 0) dir.x = 1;
+			if(dir.y > 0) dir.y = 1;
+			if(dir.y < 0) dir.y = -1;
+			actor.Run(dir);
+			//actor.realPos += dir.normalized * actor.curAttribute.runSpeed * Time.deltaTime;
+			if(Vector3.SqrMagnitude(actor.realPos - moveToTarget.realPos) < moveToTargetOffset*moveToTargetOffset)
+			{
+				DoAttack();
+			}
+			else if(timer > attackTraceDuration)
+			{
+				ChangeStatus(EmMyStatus.Idle);
+			}
+			break;
+		case EmMyStatus.NormalAttack:
+
+			//第一次立即触发
+			if((timer >= normalAttackInterval || curNormalAttack == 0) && curNormalAttack < normalAttackTimes)
+			{
+				timer = 0f;
+				curNormalAttack++;
+				actor.DoAttack(EmSkillName.NormalAttack);
+			}
+
+			if(curNormalAttack >= normalAttackTimes && !actor.isAttacking)
+				ChangeStatus(EmMyStatus.Idle);
+			break;
+
+		case EmMyStatus.BeAttacked:
+			if(actor.isIdle)
+				ChangeStatus(EmMyStatus.Idle);
+			break;
+		}
+	}
+
+	void ChangeStatus(EmMyStatus newStatus)
+	{
+		timer = 0f;
+		curStatus = newStatus;
+		switch(newStatus)
+		{
+		case EmMyStatus.Idle:
+			actor.Idle();
+			statusDuration = idleTime;
+			break;
+
+		case EmMyStatus.RandomMoveDirection:
+			Vector3[] dirs = new Vector3[]
+			{
+				new Vector3(0, 0, 1),
+				new Vector3(1, 0, 1),
+				new Vector3(1, 0, 0),
+				new Vector3(1, 0, -1),
+				new Vector3(0, 0, -1),
+				new Vector3(-1, 0, -1),
+				new Vector3(-1, 0, 0),
+				new Vector3(-1, 0, 1),
+			};
+			randomMoveDir = dirs[Random.Range(0, 8)];
+			randomMoveTime = idleTime;
+			statusDuration = randomMoveTime;
+			break;
+
+		case EmMyStatus.MoveToTarget:
+			break;
+
+		case EmMyStatus.NormalAttack:
+			normalAttackTimer = 0;
+			curNormalAttack = 0;
+			break;
+
+		case EmMyStatus.BeAttacked:
+			break;
+		}
+	}
+
+	void MoveToTarget()
+	{
+		//找最近的敌人，移动过去进行攻击
+		ActorBase actor = GetNearestAttackTarget();
+		if(actor != null)
+		{
+			moveToTarget = actor;
+			moveToTargetOffset = 100;//待修改为攻击距离
+			ChangeStatus(EmMyStatus.MoveToTarget);
+		}
+		else
+			ChangeStatus(EmMyStatus.Idle);
+	}
+
+	void DoAttack()
+	{
+		ChangeStatus(EmMyStatus.NormalAttack);
+	}
+
+	ActorBase GetNearestAttackTarget()
+	{
+		List<ActorBase> enemyList = GameMain.curSceneManager.GetEnemyList(actor);
+		if(enemyList == null)
+			return null;
+
+		float minDist = float.MaxValue;
+		ActorBase minDistActor = null;
+		for(int i=0; i<enemyList.Count; i++)
+		{
+			if(!enemyList[i].isAlive) continue;
+			float d = Vector3.Distance(actor.realPos, enemyList[i].realPos);
+			if(d < minDist)
+			{
+				minDist = d;
+				minDistActor = enemyList[i];
+			}
+		}
+		return minDistActor;
+	}
+}

@@ -1,0 +1,16 @@
+[0] npk=null  img=null  x=82  y=37  width=159  height=140  max_width=340  max_height=260
+[1] npk=null  img=null  x=63  y=27  width=180  height=170  max_width=340  max_height=260
+[2] npk=null  img=null  x=65  y=28  width=179  height=168  max_width=340  max_height=260
+[3] npk=null  img=null  x=68  y=31  width=174  height=164  max_width=340  max_height=260
+[4] npk=null  img=null  x=74  y=34  width=165  height=159  max_width=340  max_height=260
+[5] npk=null  img=null  x=80  y=36  width=152  height=156  max_width=340  max_height=260
+[6] npk=null  img=null  x=89  y=39  width=142  height=149  max_width=340  max_height=260
+[7] npk=null  img=null  x=97  y=46  width=128  height=135  max_width=340  max_height=260
+[8] npk=null  img=null  x=103  y=60  width=112  height=112  max_width=340  max_height=260
+[9] npk=null  img=null  x=117  y=78  width=82  height=81  max_width=340  max_height=260
+[10] npk=null  img=null  x=136  y=95  width=50  height=50  max_width=340  max_height=260
+[11] npk=null  img=null  x=68  y=28  width=171  height=172  max_width=340  max_height=260
+[12] npk=null  img=null  x=68  y=28  width=171  height=172  max_width=340  max_height=260
+[13] npk=null  img=null  x=100  y=70  width=102  height=92  max_width=340  max_height=260
+[14] npk=null  img=null  x=95  y=61  width=110  height=103  max_width=340  max_height=260
+[15] npk=null  img=null  x=88  y=76  width=118  height=93  max_width=340  max_height=260
