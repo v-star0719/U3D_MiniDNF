@@ -1,9 +1,12 @@
 # MiniDNF
-使用Unity3D开发的一个迷你型的地下城与勇士小游戏，有3个关卡，设置了几只小怪。
-自己做了一个2d动画组件，动画帧没有打包成图集，PC上感觉这个不是很必要。
-完成了鬼剑士的几个基本技能，以及狂战士的几个技能。
-其他童鞋可以参考参考。
 
-可执行程序可在此处查看：http://pan.baidu.com/s/1qXBxYEg
+A mini game of DNF.
+All the resource is extract from DNF.
+I made a 2D animaton component int it. The frame texture is not build in atlas, as I think it's not nessary on PC.
+Basic skills of Swardman is ok.
+Basic skills of bloody swardamn is ok.
+
+![screenshot]()
 
 
+If you want to run the application on your computer, please download all the file in `release build folder` except screenshot.png. 
