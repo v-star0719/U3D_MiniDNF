@@ -147,7 +147,7 @@ public class SkillBase
 			}
 			else
 			{
-				if(timer >= curAttackConf.comboStartTime * (1 - attackSpeed)) {
+				if(timer >= curAttackConf.comboStartTime * attackSpeed) {
 					return EmPlaySKillResult.WaitToCombo;
 				}
 			}

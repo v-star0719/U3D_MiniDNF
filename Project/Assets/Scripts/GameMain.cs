@@ -52,7 +52,10 @@ public class GameMain : MonoBehaviour
 
 	public static void StartGame()
 	{
-		SceneLoader.Load(SceneNameSet.mainMenuScene, EmSceneLoadingType.EnterGame);
+		if(PlayerPrefs.GetInt(PlayerPreferManager.hasPlayedTutorial, 0) == 1)
+			SceneLoader.Load(SceneNameSet.mainMenuScene, EmSceneLoadingType.EnterGame);
+		else
+			SceneLoader.Load(SceneNameSet.tutorial, EmSceneLoadingType.EnterGame);
 	}
 
 	public static void EnterBattle()

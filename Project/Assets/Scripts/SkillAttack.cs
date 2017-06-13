@@ -324,9 +324,9 @@ public class SkillAttack
 		}
 
 		//音效
-		if(!string.IsNullOrEmpty(attackConf.soundName))
+		if(!string.IsNullOrEmpty(attackConf.actorCastSoundName))
 		{
-			actor.audioSource.clip = ResourceLoader.LoadCharactorSound(attackConf.soundName);
+			actor.audioSource.clip = ResourceLoader.LoadCharactorSound(attackConf.actorCastSoundName);
 			actor.audioSource.Play();
 		}
 

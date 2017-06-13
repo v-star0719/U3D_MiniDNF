@@ -25,5 +25,8 @@ public class SceneManagerTutorial : SceneManagerBase
 		UIManager.OpenPanel(EmPanelName.TutorialPanel);
 		UIManager.OpenPanel(EmPanelName.BattleDamageNumberPanel);
 		UIManager.OpenPanel(EmPanelName.BattleHpPanel);
+
+		if(PlayerPrefs.GetInt(PlayerPreferManager.hasPlayedTutorial, 0) != 1)
+			PlayerPrefs.SetInt(PlayerPreferManager.hasPlayedTutorial, 1);
 	}
 }

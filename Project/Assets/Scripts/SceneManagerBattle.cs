@@ -39,7 +39,7 @@ public class SceneManagerBattle : SceneManagerBase
 
 		if(actor.actorType == EmActorType.MainPlayer)
 		{
-			UIManager.OpenPanel(EmPanelName.BattleFailedPanel);
+			Invoke("ShowBattleFailedPanel", 1.5f);
 		}
 		else
 		{
@@ -48,6 +48,13 @@ public class SceneManagerBattle : SceneManagerBase
 			{
 				StageClear();
 			}
+		}
+
+		//boss死亡播放慢镜头，其他小怪自动死亡
+		if(actor.monsterType == EmMonsterType.Boss)
+		{
+			BossDeadSlowMotion slowMotion = GameMain.instance.gameObject.AddComponent<BossDeadSlowMotion>();
+			slowMotion.Play(OnBossDeadSlowMotionPlayEnd);
 		}
 	}
 
@@ -59,14 +66,39 @@ public class SceneManagerBattle : SceneManagerBase
 			g.OpenOrClose(true);
 
 		if(curLevel == GameConfig.maxBattleLevel)
-			UIManager.OpenPanel(EmPanelName.BattleCompeletePanel);
+			Invoke("ShowBattleCompeletePanel", 1);
 	}
+
+	//用于Invoke
+	void ShowBattleCompeletePanel()
+	{
+		UIManager.OpenPanel(EmPanelName.BattleCompeletePanel);
+	}
+	//用于Invoke
+	void ShowBattleFailedPanel()
+	{
+		UIManager.OpenPanel(EmPanelName.BattleFailedPanel);
+	}
+
 
 	public void OnPlayerEnterDoor()
 	{
 		if(isStageClear && GameMain.curStatus != GameStatus.Loading)
 		{
 			GameMain.ChangeBattleLevel();
+		}
+	}
+
+	public void OnBossDeadSlowMotionPlayEnd()
+	{
+		BossDeadSlowMotion slowMotion = GameMain.instance.gameObject.AddComponent<BossDeadSlowMotion>();
+		Destroy(slowMotion);
+
+		//其他小怪自动死亡
+		for(int i=0; i<enemiesList.Count; i++)
+		{
+			if(enemiesList[i].isAlive)
+				enemiesList[i].Die();
 		}
 	}
 }

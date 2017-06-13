@@ -32,7 +32,7 @@ public class X2DAnimation : MonoBehaviour
 	public Vector2 curFrameTopLeft;
 	public Vector2 curFrameBottomRight;
 
-	private float accelerate;//如果加速30%，那么这个值为0.7；如果减速30%，那么这个值为1.30
+	private float accelerate;//如果是快两倍，为0.5f；慢两倍，为2
 
 	//预览功能
 	[HideInInspector]
@@ -266,7 +266,7 @@ public class X2DAnimation : MonoBehaviour
 		if (!curClip.hasPosCurve) return Vector3.zero;
 
 		Vector3 pos3 = Vector3.zero;
-		Vector2 pos2 = curClip.GetPos(timer);
+		Vector2 pos2 = curClip.GetPos(timer / accelerate);
 		//if(isFaceRight)
 		//	pos3.x = pos2.x;
 		//else
@@ -344,11 +344,7 @@ public class X2DAnimation : MonoBehaviour
 		curFrame = isForward ? 0 : curClip.frameList.Count - 1;
 		PlayFrame(curClip, curFrame);
 		timer = isForward ? 0f : curClip.duration;
-
-		if(acc <= 0.000001f)
-			accelerate = 1000000;
-		else
-			accelerate = 1/acc;
+		accelerate = acc;
 	}
 
 	//停止会隐藏renderer

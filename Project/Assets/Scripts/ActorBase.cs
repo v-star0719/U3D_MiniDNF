@@ -588,6 +588,14 @@ public class ActorBase : MonoBehaviour
 		ChangeStatus(EmActorStatus.Idle);
 	}
 
+	public void Die()
+	{
+		float preHp = curAttribute.hp;
+		curAttribute.hp = 0;
+		ChangeStatus(EmActorStatus.Die);
+		UIBattleHpPanel.instance.ShowMonsterHP(actorConf, orgAttribute.hp, curAttribute.hp, preHp, monsterType);//应该把hp变化放到一个函数里
+	}
+
 	//连续攻击处理方式：当前攻击快要完成时，按下攻击键
 	public void DoAttack(int skillID)
 	{
@@ -625,7 +633,11 @@ public class ActorBase : MonoBehaviour
 				state.StartCd();
 			}
 			else
+			{
+				audioSource.clip = ResourceLoader.LoadCharactorSound("effect/zieg_stab_02");
+				audioSource.Play();
 				Debug.Log("Skill is cding, remain + " + state.curCd + "s");
+			}
 			if(mySkill == null) return;
 		}
 
@@ -811,9 +823,9 @@ public class ActorBase : MonoBehaviour
 			hitMoveSpeed.x = -hitMoveSpeed.x;
 
 		//音效
-		if(!string.IsNullOrEmpty(damageConf.soundName))
+		if(!string.IsNullOrEmpty(damageConf.hitSoundName))
 		{
-			audioSource.clip = ResourceLoader.LoadCharactorSound(damageConf.soundName);
+			audioSource.clip = ResourceLoader.LoadCharactorSound(damageConf.hitSoundName);
 			audioSource.Play();
 		}
 
@@ -890,7 +902,8 @@ public class ActorBase : MonoBehaviour
 			break;
 
 		case EmActorStatus.DoAttack:
-			statusDuration = PlayAnimation(mySkill.curAttackConf.actorClipName);
+			bool canSpeedUp =  mySkill.skillID <= 100003 || mySkill.skillID == 100101;//就这么几个技能动作受加速影响
+			statusDuration = PlayAnimation(mySkill.curAttackConf.actorClipName, canSpeedUp);
 			mySkill.DoCurAttack();
 			break;
 
@@ -958,6 +971,11 @@ public class ActorBase : MonoBehaviour
 			{
 				statusDuration = 0.5f;
 				PlayAnimation(EmActorAnimationName.BeAttackedFallDown);
+				if(actorConf.actorID == 1001)
+				{
+					audioSource.clip = ResourceLoader.LoadCharactorSound("sm_die");//先这样直接写死了
+					audioSource.Play();
+				}
 			}
 			else
 			{
@@ -991,17 +1009,21 @@ public class ActorBase : MonoBehaviour
 		animationStartPos = objectbase.realLocalPos;
 		isLieDown = animationName == EmActorAnimationName.BeAttackedLieOnGround ||
 			animationName == EmActorAnimationName.BeAttackedFly;
-		objectbase.x2dAnim.Play(animationName.ToString(), curAttribute.attackSpeed);
+		objectbase.x2dAnim.Play(animationName.ToString(), 1);
 		return objectbase.x2dAnim.playTime;
 	}
 
 	///返回动画持续时间
-	private float PlayAnimation(string animationName)
+	///只有攻击动画，会受攻击速度的影响
+	private float PlayAnimation(string animationName, bool isAttackAnima = false)
 	{
 		animationStartPos = objectbase.realLocalPos;
 		isLieDown = animationName == EmActorAnimationName.BeAttackedLieOnGround.ToString() ||
 			animationName == EmActorAnimationName.BeAttackedFly.ToString();
-		objectbase.x2dAnim.Play(animationName, curAttribute.attackSpeed);
+		float speedUp = 1;
+		if(isAttackAnima)
+			speedUp = curAttribute.attackSpeed;
+		objectbase.x2dAnim.Play(animationName, speedUp);
 		return objectbase.x2dAnim.playTime;
 	}
 

@@ -58,6 +58,11 @@ public class EnemyAI : MonoBehaviour
 			return;
 		}
 
+		if(actor.isDead || actor.isDieing)
+		{
+			return;
+		}
+
 		switch(curStatus)
 		{
 		case EmMyStatus.Idle:
@@ -150,7 +155,6 @@ public class EnemyAI : MonoBehaviour
 		case EmMyStatus.Idle:
 			actor.Idle();
 			statusDuration = Random.Range(0, aiConf.idlMaxDuration);
-			Debug.Log("Idle -- " + statusDuration);
 			break;
 
 		case EmMyStatus.RandomMoveDirection:

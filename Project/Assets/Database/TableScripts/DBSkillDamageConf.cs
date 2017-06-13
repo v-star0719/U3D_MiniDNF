@@ -12,7 +12,7 @@ public class DBSkillDamageConf
 	///生效时间
 	public float buffEnableTime;
 	///音效
-	public string soundName;
+	public string hitSoundName;
 	///攻击百分比伤害
 	public int damagePercent;
 	///固定伤害值
@@ -29,7 +29,6 @@ public class DBSkillDamageConf
 	public Vector3 damageCenterPos;
 	///伤害范围
 	public EmDamageArenaType damageArenaType;
-	///伤害范围过滤
 	///伤害距离
 	public float damageArenaRadius;
 	///伤害区域尺寸

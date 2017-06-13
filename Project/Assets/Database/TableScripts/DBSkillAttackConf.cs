@@ -9,8 +9,8 @@ public class DBSkillAttackConf
 	public int skillID;
 	///攻击名称
 	public string attackName;
-	///音效名
-	public string soundName;
+	///角色施放音效
+	public string actorCastSoundName;
 	///自动切到下个攻击
 	public bool autoNextAttack;
 	///释放时间，如果为0，则没有释放时间，并且对释放+动作的攻击忽略释放动作
