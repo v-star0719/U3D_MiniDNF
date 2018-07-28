@@ -1,12 +1,12 @@
 # MiniDNF
 
-A mini game of DNF.  
-All the resources is extract from DNF.  
-I made a 2D animaton component in it. The frame textures is not build to atlas, as I think it's not nessary on PC.  
-Basic skills of Swardman is ok.  
-Basic skills of bloody swardman is ok.  
+这是一个《地下城与勇士》的小游戏，所有资源都是从游戏客户端解压出来的，仅供学习参考。
+（1）有三个战斗关卡，还有一个新手教程关卡。  
+（2）只做了鬼剑士的基本技能，以及狂战士的部分技能。
+（3）做了一个2D动画组件，动画的texutre没有打包成atlas，感觉pc上并不是很必要。2D动画组件可以用其他动画组件代替，这里仅仅是自己兴趣爱好。
+（4）设计错误一，技能效果取了继承的方式来实现，应该采取组合的方式。即击飞、吸引、等效果应该是组合起来，通过配置选择是否要，而不是全都放进配置里开关。另外技能编辑器也能重要，通过Excel配表的方式太麻烦了。策划要进行规划的属性伤害数据放进Excel表，而表现上的配置在编辑器里修改就行，这样也可以在运行时效果。  
+（5）设计错误二，内部计算和表现的坐标不是一个。其实用一个就可以了，只要将相机按斜45度照射。我在内部计算采用了实际世界坐标，然后将世界坐标转换位2d的表现坐标，2d动画按这个表现坐标进行显示。这就导致调试看不到游戏对象的实际位置，因为scene里面看到的游戏对象的位置是转换过来之后的位置。为此我又增加了一个镜像系统来显示实际位置。当时觉得很有意思就做了出来，但是实际操作起来很不方便，自由玩玩的价值了。  
 
 ![screenshot](https://github.com/qiminixi/MiniDNF/blob/master/Release/screenshot.png)
 
-
-If you want to run the application on your computer, please download all the file `package.7z` in `release` folder.   
+下载`release`文件夹里的'package.7z'，解压出来就是游戏可执行文件。  
