@@ -17,7 +17,7 @@ public class UIIconCtrl : MonoBehaviour
 
 	public void Set(int id)
 	{
-		DBIconConf iconConf = DBIconTable.GetRecord(id);
+		DBIconRecord iconConf = DBIconTable.GetRecord(id);
 		if(iconConf == null) return;
 		sprite.spriteName = iconConf.spriteName;
 	}

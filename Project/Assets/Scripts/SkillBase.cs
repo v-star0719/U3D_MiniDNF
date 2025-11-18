@@ -58,7 +58,7 @@ public class SkillBase
 
 	[HideInInspector]
 	public DBSkillConf skillConf;
-	public DBSkillAttackConf curAttackConf;
+	public DBSkillAttackRecord curAttackConf;
 
 	protected int curAttackIndex;
 	protected List<SkillAttack> attackList = new List<SkillAttack>();//触发的攻击列表

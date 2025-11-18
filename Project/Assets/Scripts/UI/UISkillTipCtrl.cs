@@ -21,7 +21,7 @@ public class UISkillTipCtrl : MonoBehaviour
 	{
 	}
 
-	public void Show(DBSkillInfoConf skillInfoConf)
+	public void Show(DBSkillInfoRecord skillInfoConf)
 	{
 		nameLabel.text = skillInfoConf.skillNameText;
 		cdLabel.text = skillInfoConf.cd + "秒";
@@ -38,13 +38,13 @@ public class UISkillTipCtrl : MonoBehaviour
 			return;
 		}
 
-		List<DBSkillDamageConf> damageList = new List<DBSkillDamageConf>();
+		List<DBSkillDamageRecord> damageList = new List<DBSkillDamageRecord>();
 		//跳过伤害为0的攻击
 		for(int i=0; i<skillConf.attackList.Count; i++)
 		{
 			for(int j=0; j<skillConf.attackList[i].damages.Length; j++)
 			{
-				DBSkillDamageConf damageConf = DBSkillDamageTable.GetRecord(skillConf.attackList[i].damages[j]);
+				DBSkillDamageRecord damageConf = DBSkillDamageTable.GetRecord(skillConf.attackList[i].damages[j]);
 				if(damageConf.damagePercent > 0)
 					damageList.Add(damageConf);
 			}
@@ -59,7 +59,7 @@ public class UISkillTipCtrl : MonoBehaviour
 			string text = "";
 			for(int i=0; i<damageList.Count; i++)
 			{
-				DBSkillDamageConf damageConf = damageList[i];
+				DBSkillDamageRecord damageConf = damageList[i];
 				string damageText = "";
 				if(damageConf.times <= 1)
 					damageText = string.Format("造成{0}%攻击力的伤害", damageConf.damagePercent);

@@ -29,6 +29,8 @@ public class GameMain : MonoBehaviour
 	public AudioSource bgmAudioSource;
 	public Camera uiCamera;
 
+	public bool IsEditorMode;
+
 	void Awake()
 	{
 		instance = this;

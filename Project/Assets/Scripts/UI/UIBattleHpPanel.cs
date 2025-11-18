@@ -19,7 +19,7 @@ public class UIBattleHpPanel : UIPanelBase
 		instance = null;
 	}
 
-	public void ShowMonsterHP(DBActorAttributeConf actorConf, float maxHp, float curHp, float preHp, EmMonsterType monsterType)
+	public void ShowMonsterHP(DBActorAttributeRecord actorConf, float maxHp, float curHp, float preHp, EmMonsterType monsterType)
 	{
 		UIHpCtrl hpCtrl = null;
 		if(monsterType == EmMonsterType.Boss)

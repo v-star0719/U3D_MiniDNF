@@ -65,7 +65,7 @@ public class UIHpCtrl : MonoBehaviour
 		}
 	}
 
-	public void Show(DBActorAttributeConf actorConf, float maxHp, float curHp, float preHp, EmMonsterType monsterType)
+	public void Show(DBActorAttributeRecord actorConf, float maxHp, float curHp, float preHp, EmMonsterType monsterType)
 	{
 		string prefix = "";
 		if(monsterType == EmMonsterType.Elite)

@@ -106,7 +106,7 @@ public class ActorBase : MonoBehaviour
 
 	public ActorAttributeData orgAttribute;//原始属性
 	public ActorAttributeData curAttribute;//当前属性
-	public DBActorAttributeConf actorConf;
+	public DBActorAttributeRecord actorConf;
 	public float attack1ComboStartTime;
 	public float attack2ComboStartTime;
 
@@ -123,7 +123,7 @@ public class ActorBase : MonoBehaviour
 	private int nextAttackDir;//0表示继续当前方向，1表示右，-1表示左
 
 	//被击效果
-	private DBSkillDamageConf damageConf;
+	private DBSkillDamageRecord damageConf;
 	private Vector3 hitMoveStartPos;
 	private AnimationCurve hitMoveCurve;
 	private Vector2 hitMoveSpeed;
@@ -663,7 +663,7 @@ public class ActorBase : MonoBehaviour
 
 	
 
-	public void BeAttacked(ActorBase attacker, DBSkillDamageConf damage, SkillBase skill)
+	public void BeAttacked(ActorBase attacker, DBSkillDamageRecord damage, SkillBase skill)
 	{
 		if(isParrying)
 		{
@@ -1035,7 +1035,7 @@ public class ActorBase : MonoBehaviour
 
 	public void BeBuff(int buffId)
 	{
-		DBBuffConf conf = DBBuffTable.GetRecord(buffId);
+		DBBuffRecord conf = DBBuffTable.GetRecord(buffId);
 		Buff buff = new Buff();
 		buff.Start(this, conf);
 		buffList.Add(buff);

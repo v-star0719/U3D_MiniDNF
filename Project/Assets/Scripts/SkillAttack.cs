@@ -9,14 +9,14 @@ public class SkillAttack
 	public ObjectBase damageCenter;//如果为null，则表示中心为出生位置
 	public Vector3 bornPos;
 
-	public DBSkillAttackConf attackConf;
+	public DBSkillAttackRecord attackConf;
 
 	public bool isFinished = false;
 
 	public EffectObject eo;
 	private float damageTimer = 0f;//
 	private float lifeTimer = 0f;//
-	private DBSkillDamageConf[] damageConfArray;
+	private DBSkillDamageRecord[] damageConfArray;
 	private float attackTimer;
 	private int attackTimes;
 	private int damageIndex;
@@ -128,7 +128,7 @@ public class SkillAttack
 		if(damageIndex < damageConfArray.Length)
 		{
 			damageTimer += Time.deltaTime;
-			DBSkillDamageConf damage = damageConfArray[damageIndex];
+			DBSkillDamageRecord damage = damageConfArray[damageIndex];
 
 			if(!isBuffEnabled)
 			{
@@ -203,7 +203,7 @@ public class SkillAttack
 	}
 
 	//
-	public void DoDamage(DBSkillDamageConf damage)
+	public void DoDamage(DBSkillDamageRecord damage)
 	{
 		List<ActorBase> enemyList = GameMain.curSceneManager.GetEnemyList(actor);
 		if(enemyList == null)
@@ -220,7 +220,7 @@ public class SkillAttack
 		}
 	}
 
-	public bool IsInAttackRange(ActorBase enemy, DBSkillDamageConf damage)
+	public bool IsInAttackRange(ActorBase enemy, DBSkillDamageRecord damage)
 	{
 		//伤害中心
 		Vector3 damageCenter = Vector3.zero;
@@ -257,7 +257,7 @@ public class SkillAttack
 		//return true;
 	}
 
-	public void StartAttack(SkillBase skill, ActorBase actor, DBSkillAttackConf attackConf)
+	public void StartAttack(SkillBase skill, ActorBase actor, DBSkillAttackRecord attackConf)
 	{
 		//Debug.Log("Do attack: " + attackConf.ID);
 		isAttackObjectMoving = false;
@@ -266,7 +266,7 @@ public class SkillAttack
 
 		this.skill = skill;
 
-		damageConfArray = new DBSkillDamageConf[attackConf.damages.Length];
+		damageConfArray = new DBSkillDamageRecord[attackConf.damages.Length];
 		for(int i = 0; i < attackConf.damages.Length; i++)
 			damageConfArray[i] = DBSkillDamageTable.GetRecord(attackConf.damages[i]);
 
@@ -376,7 +376,7 @@ public class SkillAttack
 			Gizmos.DrawSphere(actor.transform.position, damageConfArray[damageIndex].damageArenaRadius);
 	}
 
-	public static float GetDamageDuration(DBSkillDamageConf conf)
+	public static float GetDamageDuration(DBSkillDamageRecord conf)
 	{
 		return conf.startTime + conf.interval*(conf.times - 1);
 	}

@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
 		BeAttacked,
 	}
 
-	public DBActorAiConf aiConf;
+	public DBActorAiRecord aiConf;
 	public ActorBase actor;
 
 	private EmMyStatus curStatus;

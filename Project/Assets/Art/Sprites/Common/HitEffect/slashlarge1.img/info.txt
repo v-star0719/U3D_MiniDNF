@@ -1,0 +1,3 @@
+[0] npk=null  img=null  x=102  y=107  width=132  height=120  max_width=336  max_height=336
+[1] npk=null  img=null  x=76  y=85  width=183  height=166  max_width=336  max_height=336
+[2] npk=null  img=null  x=72  y=82  width=199  height=179  max_width=336  max_height=336

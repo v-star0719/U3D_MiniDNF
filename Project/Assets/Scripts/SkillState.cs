@@ -7,7 +7,7 @@ public class SkillState
 	public EmSkillIDSet skillName;
 	public int skillID;
 	public float curCd;
-	public DBSkillInfoConf skillInfoConf;
+	public DBSkillInfoRecord skillInfoConf;
 	
 	public void ManualUpdate()
 	{

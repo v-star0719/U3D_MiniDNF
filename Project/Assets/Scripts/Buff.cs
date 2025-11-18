@@ -10,7 +10,7 @@ public class Buff
 {
 	public bool isAlive = false;
 
-	private DBBuffConf buffConf;
+	private DBBuffRecord buffConf;
 	private float buffValue;
 	private float timer;
 	private float duration;
@@ -27,7 +27,7 @@ public class Buff
 		}
 	}
 
-	public void Start(ActorBase actor, DBBuffConf conf)
+	public void Start(ActorBase actor, DBBuffRecord conf)
 	{
 		timer = 0f;
 		isAlive = true;
